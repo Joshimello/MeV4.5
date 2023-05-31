@@ -1,26 +1,22 @@
-name: CI
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-
-      - name: install
-        run: npm i --legacy-peer-deps
-
-      - name: build
-        run: npm run build
-
-      - name: deploy pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
-        with:
-          branch: gh-pages
-          folder: dist/public
-          token: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Install and Build
+      run: |
+        npm install
+        npm run build
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        token: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}
+        branch: gh-pages
+        folder: dist
