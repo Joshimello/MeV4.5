@@ -12,7 +12,7 @@
 
 </script>
 
-<T.Group position={[0, -1.5, 0]}>
+<T.Group position={[0, -4, 0]}>
   <AutoColliders shape={'cuboid'}>
     <T.Mesh receiveShadow>
       <T.RoundedBoxGeometry args={[50, 0.75, 10, 1, 1]}/>

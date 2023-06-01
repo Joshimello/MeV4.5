@@ -25,7 +25,7 @@
         geometry={$gltf.nodes['Scene'].children[0].geometry}
         material={$gltf.nodes['Scene'].children[0].material}
       />
-      <T.RectAreaLight
+<!--       <T.RectAreaLight
         args={[0xFFA500, 1, 1.8, 0.05]}
         position={[3.26, 0.21, 0]}
         rotation={[0, Math.PI/2, 0.035]}
@@ -34,7 +34,7 @@
         args={[0xFFA500, 1, 1.8, 0.05]}
         position={[-3.26, 0.21, 0]}
         rotation={[0, -Math.PI/2, -0.035]}
-      />
+      /> -->
       <T.RectAreaLight
         args={[0xFFA500, 2, 6.3, 1.8]}
         position={[0, 0.2, 0]}

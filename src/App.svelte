@@ -11,3 +11,7 @@
     </World>
   </Canvas>
 </main>
+
+<style>
+  :global(body) { overflow: hidden }
+</style>
