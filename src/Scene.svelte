@@ -1,32 +1,52 @@
 <script>
-  import { T, useThrelte, useFrame } from '@threlte/core'
-  import { OrbitControls } from '@threlte/extras'
+  import { EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPreset, ChromaticAberrationEffect, BloomEffect } from 'postprocessing'
+  import { T, useThrelte, useRender } from '@threlte/core'
+  import { OrbitControls, Text } from '@threlte/extras'
+  import { Vector2 } from 'three/src/math/Vector2'
   import { Color } from 'three/src/math/Color'
-
-  import Ground from './obj/Ground.svelte'
-  import Keyboard from './obj/Keyboard.svelte'
+  import { Fog } from 'three/src/scenes/Fog'
   import Laptop from './obj/Laptop.svelte'
-  import Mouse from './obj/Mouse.svelte'
-  import Stand from './obj/Stand.svelte'
+  import Ground from './obj/Ground.svelte'
 
-  const { scene } = useThrelte()
-  scene.background = new Color('#22223B')
+  const { scene, renderer, camera } = useThrelte()
+  scene.background = new Color(0xffffff)
+  scene.fog = new Fog(0xffffff, 20, 50)
+
+  const composer = new EffectComposer(renderer)
+  const setupEffectComposer = camera => {
+    composer.removeAllPasses()
+    composer.addPass(new RenderPass(scene, camera))
+    // composer.addPass(new EffectPass(camera, new ChromaticAberrationEffect({ offset: new Vector2(0.005) })))
+    composer.addPass(new EffectPass(camera, new SMAAEffect({ preset: SMAAPreset.LOW })))
+    // composer.addPass(new EffectPass(camera, new BloomEffect()))
+  }
+
+  $: setupEffectComposer($camera)
+  useRender((_, delta) => {
+    composer.render(delta)
+  })
 </script>
 
-<T.HemisphereLight args={['#4A4E69', '#080820', 2]}/>
-<T.PointLight args={['#F2E9E4', 3, 15]} position={[8, 4, -2]} castShadow/>
+<T.AmbientLight args={[0x404040, 1]}/>
+<T.DirectionalLight args={[0xffffff, 1]} position={[5, 20, 20]} castShadow/>
 
-<T.PerspectiveCamera makeDefault position={[0, 2, 14]}>
-  <OrbitControls/>
+<T.PerspectiveCamera
+  makeDefault
+  position={[0, 15, 20]}>
+  <OrbitControls enableDamping enablePan={false} maxPolarAngle={1.5} maxDistance={25}/>
 </T.PerspectiveCamera>
 
-<Keyboard/>
 <Laptop/>
-<Mouse/>
-<Stand/>
+
+<Text 
+  position={[0, 0.1, 0]}
+  rotation={[-Math.PI/2, 0, 0]}
+  font="Architectural.ttf"
+  text="wuddap im"
+  anchorX="center"
+  anchorY="middle"
+  fontSize="5"
+  color="black"
+/>
+
 <Ground/>
-
-
-<!--
-#22223B #4A4E69 #9A8C98 #C9ADA7 #F2E9E4
--->

@@ -1,11 +1,11 @@
 <script>
   import { AutoColliders, RigidBody } from '@threlte/rapier'
-  import { useGltf, HTML } from '@threlte/extras'
-  import { T } from '@threlte/core'
+  import { useGltf, HTML, Text } from '@threlte/extras'
+  import { T, useFrame } from '@threlte/core'
 
   const gltf = useGltf('laptop.glb')
 
-  let rectLight
+  // let rectLight
   // import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper'
   // $: if(rectLight){
   //   const rectLightHelper = new RectAreaLightHelper( rectLight )
@@ -18,21 +18,32 @@
 
 {#if $gltf}
 <T.Group
-  position={[0, 0, -3.5]}
-  rotation={[0, 0, 0]}
+  position={[0, 15, 0]}
+  rotation={[0.1, -0.7, -0.1]}
   scale={[1, 1, 1]}>
   <RigidBody>
     <AutoColliders>
+      {#if display > 3}
+      <Text 
+        position={[0, 2.3, -1.75]}
+        font="Architectural.ttf"
+        text="joshua lean"
+        anchorX="center"
+        anchorY="middle"
+        fontSize="1.5"
+        color="black"
+      />
+      {/if}
       {#if display > 2}
-      <HTML
-        transform
-        position={[0, 2.6, -1.7]}>
-        <div class="w-66 h-38.9 overflow-hidden bg-blue-600">
-          {#if display > 3}
-          <iframe class="transform scale-25 origin-top-left" height="630" width="1060" src="http://acm.cs.nthu.edu.tw/"/>
-          {/if}
-        </div>
-      </HTML>
+      <T.RectAreaLight
+        args={[0xFFFFFF, 5, 6.6, 3.8]}
+        position={[0, 2.5, -1.75]}
+        rotation={[0, 0, 0]}
+      />
+      <T.Mesh position={[0, 2.5, -1.76]}>
+        <T.PlaneGeometry args={[6.6, 3.8]}/>
+        <T.MeshStandardMaterial/>
+      </T.Mesh>
       {/if}
       <T.Mesh
         castShadow
@@ -53,4 +64,3 @@
   </RigidBody>
 </T.Group>
 {/if}
-

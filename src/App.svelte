@@ -5,7 +5,7 @@
 </script>
 
 <main class="w-full h-100vh">
-  <Canvas>
+  <Canvas rendererParameters={{ antialias: false, stencil: false, depth: false }}>
     <World>
       <Scene/>
     </World>
@@ -14,4 +14,5 @@
 
 <style>
   :global(body) { overflow: hidden }
+  @font-face { font-family: architectural; src: url('./font/Architectural.ttf') }
 </style>
